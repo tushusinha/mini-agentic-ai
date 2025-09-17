@@ -1,5 +1,5 @@
 # **🤖 Mini Agentic AI Assistant**
-
+*(Now live on GitHub!)*
 A mini sample project to explore how Agentic AI works.
 This assistant can:
 
