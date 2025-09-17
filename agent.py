@@ -1,0 +1,70 @@
+import os
+import math
+from dotenv import load_dotenv
+from langchain_openai import ChatOpenAI
+from langchain.agents import initialize_agent, Tool, AgentType
+from duckduckgo_search import DDGS
+
+# Load environment variables from .env
+load_dotenv()
+
+# Ensure API key exists
+if not os.getenv("OPENAI_API_KEY"):
+    raise ValueError("❌ Please set OPENAI_API_KEY in your .env file")
+
+# Initialize OpenAI LLM (use GPT-3.5 for cost efficiency)
+llm = ChatOpenAI(
+    model="gpt-3.5-turbo", # cost-effective model
+    temperature=0
+)
+
+# 1. Web Search Tool
+def search_duckduckgo(query: str) -> str:
+    with DDGS() as ddgs:
+        results = ddgs.text(query, max_results=2)
+        return "\n".join([r["title"] + ": " + r["body"] for r in results])
+
+search_tool = Tool(
+    name="Web Search",
+    func=search_duckduckgo,
+    description="Use this to search for current events or general knowledge."
+)
+
+# 2. Calculator Tool
+def simple_calculator(expression: str) -> str:
+    try:
+        return str(eval(expression, {"__builtins__": None, "math": math}))
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+calc_tool = Tool(
+    name="Calculator",
+    func=simple_calculator,
+    description="Use this to solve math problems. Input like '25*42'."
+)
+
+# 3. File Reader Tool
+def read_file(filepath: str) -> str:
+    try:
+        with open(filepath, "r") as f:
+            return f.read()
+    except Exception as e:
+        return f"Error reading file: {str(e)}"
+
+file_tool = Tool(
+    name="File Reader",
+    func=read_file,
+    description="Use this to read local text files. Input = file path."
+)
+
+# Initialize the agent with multiple tools
+agent = initialize_agent(
+    tools=[search_tool, calc_tool, file_tool],
+    llm=llm,
+    agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+    verbose=True
+)
+
+def run_agent(query: str) -> str:
+    """Run the agent on a given query."""
+    return agent.run(query)
