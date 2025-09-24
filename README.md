@@ -40,6 +40,8 @@ It’s stateless, lightweight, and cost-efficient — perfect for hands-on exper
 #### **4. Add your OpenAI API key**
 
     OPENAI_API_KEY=your_openai_api_key_here
+    # Optional: uncomment if you want weather functionality
+    # WEATHER_API_KEY=your_openweathermap_key_here
 
 ### 🔒 Security Notes
 

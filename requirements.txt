@@ -4,3 +4,4 @@ langchain-openai
 duckduckgo-search
 openai
 python-dotenv
+requests
