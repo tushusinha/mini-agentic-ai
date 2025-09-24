@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain.agents import initialize_agent, Tool, AgentType
 from duckduckgo_search import DDGS
+from safe_utils import simple_calculator, read_file
 
 # Load environment variables from .env
 load_dotenv()
@@ -40,11 +41,11 @@ search_tool = Tool(
 )
 
 # 2. Calculator Tool
-def simple_calculator(expression: str) -> str:
-    try:
-        return str(eval(expression, {"__builtins__": None, "math": math}))
-    except Exception as e:
-        return f"Error: {str(e)}"
+# def simple_calculator(expression: str) -> str:
+#     try:
+#         return str(eval(expression, {"__builtins__": None, "math": math}))
+#     except Exception as e:
+#         return f"Error: {str(e)}"
 
 calc_tool = Tool(
     name="Calculator",
@@ -53,12 +54,12 @@ calc_tool = Tool(
 )
 
 # 3. File Reader Tool
-def read_file(filepath: str) -> str:
-    try:
-        with open(filepath, "r") as f:
-            return f.read()
-    except Exception as e:
-        return f"Error reading file: {str(e)}"
+# def read_file(filepath: str) -> str:
+#     try:
+#         with open(filepath, "r") as f:
+#             return f.read()
+#     except Exception as e:
+#         return f"Error reading file: {str(e)}"
 
 file_tool = Tool(
     name="File Reader",

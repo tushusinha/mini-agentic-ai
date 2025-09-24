@@ -1,5 +1,24 @@
+# Python
 __pycache__/
 *.pyc
-.venv/
-venv/
+*.pyo
+*.pyd
+*.sqlite3
+*.db
+
+# Virtual environments
 .env
+.venv
+venv/
+ENV/
+
+# IDE files
+.vscode/
+.idea/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Pynguin generated tests
+generated-tests/

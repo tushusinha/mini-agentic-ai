@@ -1,13 +1,13 @@
 # **🤖 Mini Agentic AI Assistant**
 *(Now live on GitHub!)*
 
-A mini sample project to explore how Agentic AI works.
-This assistant can:
+This is a **mini agentic AI project** built with:
+- **LangChain** + **OpenAI** (for LLM reasoning)
+- **Tools**: Calculator, File Reader, Web Search (DuckDuckGo), Weather (OpenWeatherMap API)
+- **Streamlit** frontend
+- **CI/CD with GitHub Actions**
 
-	• 🔍 Search the web for current news.
-	• ➗ Solve math expressions with a calculator.
-	• 📂 Read and summarize local text files.
-
+The agent demonstrates how to orchestrate multiple tools under an LLM to answer real-world queries.
 It’s stateless, lightweight, and cost-efficient — perfect for hands-on experimentation.
 
 ### **🗂️ Project Structure**
@@ -72,7 +72,7 @@ Each developer or user should create their own .env file locally with their pers
 
 ### **🚀 Run the App**
 
-streamlit run app.py
+    streamlit run app.py
 
 Open http://localhost:8501 in your browser.
 
@@ -89,3 +89,35 @@ Open http://localhost:8501 in your browser.
 ##### •	File Reading:
 
 "Read ./sample.txt and summarize it in 3 points." → Uses File Reader
+
+### 🧪 Testing
+
+#### Hand-Written Tests
+
+All hand-written unit and integration tests live in the tests/ folder.
+Run them with:
+
+    pytest tests/
+
+#### Auto-Generated Tests (Pynguin)
+
+We use Pynguin to automatically generate tests for safe functions (simple_calculator, read_file) in safe_utils.py.
+
+	• These generated tests are created during CI/CD runs only.
+	• They are written into generated-tests/ but this folder is excluded from Git (see .gitignore).
+	• This ensures that only hand-written tests live in the repo, while Pynguin contributes extra coverage in the pipeline.
+
+To manually generate them locally:
+
+    export PYNGUIN_DANGER_AWARE=1
+    pynguin --project-path . --output-path generated-tests --module-name safe_utils
+    pytest generated-tests/
+
+### ✅ CI/CD Pipeline
+
+	• Linting with flake8
+	• Run hand-written tests with pytest
+	• Run Pynguin to auto-generate safe tests
+	• Execute Pynguin tests to improve coverage
+
+This pipeline ensures that every push is validated by both manual + generated tests.

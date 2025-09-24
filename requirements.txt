@@ -5,3 +5,6 @@ duckduckgo-search
 openai
 python-dotenv
 requests
+pynguin
+pytest
+flake8
