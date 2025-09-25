@@ -11,7 +11,12 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 try:
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": "Say the word 'working' if you received this message"}],
+        messages=[
+            {
+                "role": "user",
+                "content": "Say the word 'working' if you received this message"
+            }
+        ],
         max_tokens=10  # keep it tiny
     )
 
