@@ -2,6 +2,7 @@ import tempfile
 import pytest
 from safe_utils import read_file
 
+
 @pytest.mark.unit
 def test_file_reader_valid():
     with tempfile.NamedTemporaryFile(mode="w+", delete=False) as tmp:
@@ -11,6 +12,7 @@ def test_file_reader_valid():
 
     content = read_file(path)
     assert "Hello, world!" in content
+
 
 @pytest.mark.unit
 def test_file_reader_invalid_path():

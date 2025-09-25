@@ -2,10 +2,12 @@ import os
 import pytest
 from agent import run_agent
 
+
 @pytest.mark.integration
 def test_agent_math_query():
     result = run_agent("What is 2+2?")
     assert "4" in result
+
 
 @pytest.mark.integration
 def test_agent_weather_query():
@@ -15,6 +17,7 @@ def test_agent_weather_query():
     result = run_agent("What is the weather in London?")
     assert "Weather in London" in result or "Couldn't fetch weather" in result
 
+
 @pytest.mark.integration
 def test_agent_file_reader(tmp_path):
     file_path = tmp_path / "sample.txt"
@@ -23,6 +26,7 @@ def test_agent_file_reader(tmp_path):
     query = f"Read the file at {file_path}"
     result = run_agent(query)
     assert "Hello from test!" in result
+
 
 @pytest.mark.integration
 def test_agent_search_query():
