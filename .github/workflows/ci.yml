@@ -23,7 +23,7 @@ jobs:
         run: flake8 .
 
       - name: Run hand-written tests
-        run: pytest tests/
+        run: PYTHONPATH=. pytest tests/
 
       - name: Generate tests with Pynguin (safe_utils only)
         run: |
