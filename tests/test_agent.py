@@ -1,6 +1,13 @@
 import os
 import pytest
+from unittest.mock import patch
 from agent import run_agent
+
+
+@patch("agent.agent.run_agent", return_value="Mocked response")
+def test_run_agent(mocked_agent):
+    result = run_agent("Hello")
+    assert result == "Mocked response"
 
 
 @pytest.mark.integration
