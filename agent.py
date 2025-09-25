@@ -34,6 +34,7 @@ def search_duckduckgo(query: str) -> str:
         )
         return "\n".join([r["title"] + ": " + r["body"] for r in results])
 
+
 search_tool = Tool(
     name="Web Search",
     func=search_duckduckgo,
@@ -72,17 +73,18 @@ def get_weather(city: str) -> str:
     data = response.json()
 
     if data.get("cod") != 200:
-        return f"Couldn't fetch weather for {city}: {data.get('message', 'Unknown error')}"
+        return f"Fetch plm weather for {city}: {data.get('message', 'Unknown error')}"
 
     main = data["weather"][0]["description"].capitalize()
     temp = data["main"]["temp"]
     feels = data["main"]["feels_like"]
     return f"Weather in {city}: {main}, {temp}°C (feels like {feels}°C)."
 
+
 weather_tool = Tool(
     name="Weather",
     func=get_weather,
-    description="Get the current weather for a city. Input should be a city name."
+    description="Get current weather for a city. Input should be a city name."
 )
 
 
