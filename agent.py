@@ -9,20 +9,16 @@ from safe_utils import simple_calculator, read_file
 # Load environment variables from .env
 load_dotenv()
 
-# Fetch the Weather API from .env
-weather_api_key = os.getenv("WEATHER_API_KEY")
 
-# Ensure API key exists
-if not os.getenv("OPENAI_API_KEY"):
-    raise ValueError("❌ Please set OPENAI_API_KEY in your .env file")
-if not weather_api_key:
-    raise ValueError("❌ Please set WEATHER_API_KEY in your .env file")
-
-# Initialize OpenAI LLM (use GPT-3.5 for cost efficiency)
-llm = ChatOpenAI(
-    model="gpt-3.5-turbo",  # cost-effective model
-    temperature=0
-)
+# ------------- LLM (lazy-load) -------------
+def get_llm():
+    """Return an OpenAI LLM, raising error if no key is set."""
+    if not os.getenv("OPENAI_API_KEY"):
+        raise ValueError("❌ Please set OPENAI_API_KEY in your .env file")
+    return ChatOpenAI(
+        model="gpt-3.5-turbo",  # cost-effective model
+        temperature=0
+    )
 
 
 # 1. Web Search Tool
@@ -60,6 +56,10 @@ file_tool = Tool(
 
 # 4. Weather Tool
 def get_weather(city: str) -> str:
+    weather_api_key = os.getenv("WEATHER_API_KEY")
+    if not weather_api_key:
+        raise ValueError("❌ Please set WEATHER_API_KEY in your .env file")
+
     url = "http://api.openweathermap.org/data/2.5/weather"
     params = {
         "q": city,
@@ -89,14 +89,22 @@ weather_tool = Tool(
 
 
 # Initialize the agent with multiple tools
-agent = initialize_agent(
-    tools=[search_tool, calc_tool, file_tool, weather_tool],
-    llm=llm,
-    agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
-    verbose=True
-)
+# agent = initialize_agent(
+#     tools=[search_tool, calc_tool, file_tool, weather_tool],
+#     llm=llm,
+#     agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+#     verbose=True
+# )
 
 
+# ------------- Agent Runner -------------
 def run_agent(query: str) -> str:
     """Run the agent on a given query."""
+    llm = get_llm()
+    agent = initialize_agent(
+        tools=[search_tool, calc_tool, file_tool, weather_tool],
+        llm=llm,
+        agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+        verbose=True
+    )
     return agent.run(query)

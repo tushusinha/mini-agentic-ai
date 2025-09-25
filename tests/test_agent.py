@@ -4,6 +4,12 @@ from unittest.mock import patch
 from agent import run_agent
 
 
+def test_agent_runs_with_mock_env():
+    result = run_agent("2+2")
+    assert isinstance(result, str)
+    assert len(result) > 0
+
+
 @patch("agent.agent.run_agent", return_value="Mocked response")
 def test_run_agent(mocked_agent):
     result = run_agent("Hello")
