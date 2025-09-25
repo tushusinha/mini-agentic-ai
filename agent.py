@@ -73,7 +73,7 @@ def get_weather(city: str) -> str:
     data = response.json()
 
     if data.get("cod") != 200:
-        return f"Fetch plm weather for {city}: {data.get('message', 'Unknown error')}"
+        return f"Weather plm {city}: {data.get('message', 'Unknown error')}"
 
     main = data["weather"][0]["description"].capitalize()
     temp = data["main"]["temp"]
