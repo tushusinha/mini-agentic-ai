@@ -4,14 +4,25 @@ from unittest.mock import patch
 from agent import run_agent
 
 
-def test_agent_runs_with_mock_env():
+@pytest.mark.integration
+def test_agent_with_real_openai():
+    result = run_agent("Summarize today's AI news")
+    assert isinstance(result, str)
+    assert "AI" in result
+
+
+@patch("agent.initialize_agent")
+def test_agent_runs_with_mock_env(mock_agent):
+    mock_agent.return_value.run.return_value = "Mocked response"
+
     result = run_agent("2+2")
     assert isinstance(result, str)
     assert len(result) > 0
 
 
-@patch("agent.agent.run_agent", return_value="Mocked response")
-def test_run_agent(mocked_agent):
+@patch("agent.initialize_agent")
+def test_run_agent(mock_agent):
+    mock_agent.return_value.run.return_value = "Mocked response"
     result = run_agent("Hello")
     assert result == "Mocked response"
 
