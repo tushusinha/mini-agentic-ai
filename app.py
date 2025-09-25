@@ -1,7 +1,7 @@
 import os
 import streamlit as st
 from dotenv import load_dotenv
-from agent import run_agent # import your agent
+from agent import run_agent  # import your agent
 
 # Load environment variables
 load_dotenv()

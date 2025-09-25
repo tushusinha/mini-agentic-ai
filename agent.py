@@ -1,5 +1,4 @@
 import os
-import math
 import requests
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
@@ -21,9 +20,10 @@ if not weather_api_key:
 
 # Initialize OpenAI LLM (use GPT-3.5 for cost efficiency)
 llm = ChatOpenAI(
-    model="gpt-3.5-turbo", # cost-effective model
+    model="gpt-3.5-turbo",  # cost-effective model
     temperature=0
 )
+
 
 # 1. Web Search Tool
 def search_duckduckgo(query: str) -> str:
@@ -40,32 +40,22 @@ search_tool = Tool(
     description="Use this to search for current events or general knowledge."
 )
 
-# 2. Calculator Tool
-# def simple_calculator(expression: str) -> str:
-#     try:
-#         return str(eval(expression, {"__builtins__": None, "math": math}))
-#     except Exception as e:
-#         return f"Error: {str(e)}"
 
+# 2. Calculator Tool
 calc_tool = Tool(
     name="Calculator",
     func=simple_calculator,
     description="Use this to solve math problems. Input like '25*42'."
 )
 
-# 3. File Reader Tool
-# def read_file(filepath: str) -> str:
-#     try:
-#         with open(filepath, "r") as f:
-#             return f.read()
-#     except Exception as e:
-#         return f"Error reading file: {str(e)}"
 
+# 3. File Reader Tool
 file_tool = Tool(
     name="File Reader",
     func=read_file,
     description="Use this to read local text files. Input = file path."
 )
+
 
 # 4. Weather Tool
 def get_weather(city: str) -> str:
@@ -95,6 +85,7 @@ weather_tool = Tool(
     description="Get the current weather for a city. Input should be a city name."
 )
 
+
 # Initialize the agent with multiple tools
 agent = initialize_agent(
     tools=[search_tool, calc_tool, file_tool, weather_tool],
@@ -102,6 +93,7 @@ agent = initialize_agent(
     agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
     verbose=True
 )
+
 
 def run_agent(query: str) -> str:
     """Run the agent on a given query."""
