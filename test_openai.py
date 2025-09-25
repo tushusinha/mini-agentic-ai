@@ -14,7 +14,7 @@ try:
         messages=[
             {
                 "role": "user",
-                "content": "Say the word 'working' if you received this message"
+                "content": "Say word 'working' if you received this message"
             }
         ],
         max_tokens=10  # keep it tiny
