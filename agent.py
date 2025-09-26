@@ -88,15 +88,6 @@ weather_tool = Tool(
 )
 
 
-# Initialize the agent with multiple tools
-# agent = initialize_agent(
-#     tools=[search_tool, calc_tool, file_tool, weather_tool],
-#     llm=llm,
-#     agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
-#     verbose=True
-# )
-
-
 # ------------- Agent Runner -------------
 def run_agent(query: str) -> str:
     """Run the agent on a given query."""
