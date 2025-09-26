@@ -25,10 +25,10 @@ jobs:
       - name: Run hand-written tests (unit only)
         run: PYTHONPATH=. pytest tests/ -m "not integration"
 
-      - name: Generate tests with Pynguin (safe_utils only)
+      - name: Generate tests with Pynguin
         run: |
           export PYNGUIN_DANGER_AWARE=1
-          pynguin --project-path . --output-path generated-tests --module-name safe_utils --maximum-search-time 60 --maximum-iterations 5000
+          pynguin --project-path . --output-path generated-tests --module-name agent --maximum-search-time 60 --maximum-iterations 5000
 
       - name: Run Pynguin-generated tests
         run: PYTHONPATH=. pytest generated-tests/ -m "not integration" --ignore=generated-tests/test_safe_utils.py
